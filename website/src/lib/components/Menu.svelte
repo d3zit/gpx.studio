@@ -44,6 +44,7 @@
         ChartArea,
         Maximize,
         Maximize2,
+        Minimize2,
     } from '@lucide/svelte';
     import { map } from '$lib/components/map/map';
     import { editMetadata } from '$lib/components/file-list/metadata/utils.svelte';
@@ -118,7 +119,7 @@
 
     onMount(() => {
         const handler = () => {
-            fullscreen = !!document.fullscreenElement;
+            fullscreen = document.fullscreenElement !== null;
         };
         document.addEventListener('fullscreenchange', handler);
         return () => document.removeEventListener('fullscreenchange', handler);
@@ -397,7 +398,11 @@
                     </Menubar.Item>
                     <Menubar.Separator />
                     <Menubar.CheckboxItem checked={fullscreen} onCheckedChange={toggleFullscreen}>
-                        <Maximize2 size="16" />
+                        {#if fullscreen}
+                            <Minimize2 size="16" />
+                        {:else}
+                            <Maximize2 size="16" />
+                        {/if}
                         {i18n._('menu.fullscreen')}
                         <Shortcut key="F11" />
                     </Menubar.CheckboxItem>
