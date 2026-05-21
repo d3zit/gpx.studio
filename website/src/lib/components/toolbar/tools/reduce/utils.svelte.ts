@@ -163,6 +163,9 @@ export class ReducedGPXLayerCollection {
     reduce() {
         let itemsAndPoints = new Map<ListItem, TrackPoint[]>();
         this._simplified.forEach(([item, maxPts, points], itemFullId) => {
+            if (!get(selection).hasAnyParent(item)) {
+                return;
+            }
             itemsAndPoints.set(
                 item,
                 points
